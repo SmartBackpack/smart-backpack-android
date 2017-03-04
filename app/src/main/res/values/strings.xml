@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Smart Backpack</string>
 
+    <string name="device_name" translatable="false">HC</string>
+
     <string name="enable_bluetooth">Please enable bluetooth</string>
     <string name="connecting">Connecting&#8230;</string>
     <string name="connected">Connected</string>
-    <string name="connection_failed">Connection failed</string>
-    <string name="disconnected">Disconnected</string>
 
 </resources>
