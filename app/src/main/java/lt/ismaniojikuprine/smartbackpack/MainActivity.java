@@ -29,6 +29,12 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
         Button send = (Button) findViewById(R.id.send);
         send.setOnClickListener(this::onSendButtonClicked);
 
+        Button buzzOn = (Button) findViewById(R.id.buzzerOn);
+        buzzOn.setOnClickListener(this::onBuzzOnClicked);
+
+        Button buzzOff = (Button) findViewById(R.id.buzzerOff);
+        buzzOff.setOnClickListener(this::onBuzzOffClicked);
+
         tilt1 = (TextView) findViewById(R.id.tilt1);
         tilt2 = (TextView) findViewById(R.id.tilt2);
         reed1 = (TextView) findViewById(R.id.reed1);
@@ -58,6 +64,14 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
 
     private void onSendButtonClicked(View view) {
         bluetooth.send("HELLO WORLD", true);
+    }
+
+    private void onBuzzOnClicked(View view) {
+        bluetooth.send("BUZZ:ON", true);
+    }
+
+    private void onBuzzOffClicked(View view) {
+        bluetooth.send("BUZZ:OFF", true);
     }
 
     @Override
