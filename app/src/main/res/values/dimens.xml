@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="child_low_margin">-48dp</dimen>
+    <dimen name="child_high_margin">72dp</dimen>
+
+    <integer name="swing_rotation">30</integer>
+    <integer name="animation_speed">500</integer>
+
+</resources>
