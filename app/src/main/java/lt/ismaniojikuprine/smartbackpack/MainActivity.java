@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import app.akexorcist.bluetotohspp.library.BluetoothSPP;
@@ -15,6 +16,7 @@ import app.akexorcist.bluetotohspp.library.BluetoothState;
 public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDataReceivedListener, BluetoothSPP.BluetoothStateListener {
 
     private BluetoothSPP bluetooth;
+    private TextView reed1, reed2, tilt1, tilt2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,11 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
 
         Button send = (Button) findViewById(R.id.send);
         send.setOnClickListener(this::onSendButtonClicked);
+
+        tilt1 = (TextView) findViewById(R.id.tilt1);
+        tilt2 = (TextView) findViewById(R.id.tilt2);
+        reed1 = (TextView) findViewById(R.id.reed1);
+        reed2 = (TextView) findViewById(R.id.reed2);
 
         bluetooth = new BluetoothSPP(this);
         bluetooth.setBluetoothStateListener(this);
@@ -62,7 +69,15 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
 
     @Override
     public void onDataReceived(byte[] data, String message) {
-        Log.e("Received", message);
+        if (message.startsWith("STAT:")) {
+            String[] splitted = message.substring(4).split(";");
+            if (splitted.length == 4) {
+                tilt1.setText("Tilt 1:" + splitted[0]);
+                tilt2.setText("Tilt 2:" + splitted[1]);
+                reed1.setText("Reed 1:" + splitted[2]);
+                reed2.setText("Reed 2:" + splitted[3]);
+            }
+        }
     }
 
     @Override

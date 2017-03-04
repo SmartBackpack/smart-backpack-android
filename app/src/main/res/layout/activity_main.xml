@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="lt.ismaniojikuprine.smartbackpack.MainActivity">
 
     <Button
@@ -16,6 +17,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SEND" />
+
+    <TextView
+        android:id="@+id/reed1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reed 1:" />
+
+    <TextView
+        android:id="@+id/reed2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reed 2:" />
+
+    <TextView
+        android:id="@+id/tilt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tilt 1:" />
+
+    <TextView
+        android:id="@+id/tilt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tilt 2:" />
 
 
 </LinearLayout>
