@@ -3,7 +3,6 @@ package lt.ismaniojikuprine.smartbackpack;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,8 +15,10 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
 
     private BluetoothSPP bluetooth;
     private Toast connectingToast;
+    private boolean isStatsOpen = false;
 
     private ImageView connecting, leftChild, rightChild, swing, smile, leftSad, rightSad;
+    private Button stats;
     private SwingAnimator swingAnimator;
 
     @Override
@@ -37,7 +38,19 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
         leftSad = (ImageView) findViewById(R.id.sad_left);
         rightSad = (ImageView) findViewById(R.id.sad_right);
 
+        stats = (Button) findViewById(R.id.stats);
+        stats.setOnClickListener(this::onStatsButtonClicked);
+
         swingAnimator = new SwingAnimator(this);
+    }
+
+    private void onStatsButtonClicked(View view) {
+        isStatsOpen = !isStatsOpen;
+        if (isStatsOpen) {
+            Toast.makeText(this, R.string.history, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.real_time, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -75,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
         smile.setVisibility(View.GONE);
         leftSad.setVisibility(View.GONE);
         rightSad.setVisibility(View.GONE);
+        stats.setVisibility(View.GONE);
     }
 
     private void showSwing() {
@@ -84,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
         rightChild.setVisibility(View.VISIBLE);
         swing.setVisibility(View.VISIBLE);
         smile.setVisibility(View.VISIBLE);
+        stats.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -93,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
             Toast.makeText(this, R.string.connected, Toast.LENGTH_SHORT).show();
             showSwing();
         } else if (state == BluetoothState.STATE_CONNECTING) {
+            showConnecting();
             connectingToast = Toast.makeText(this, R.string.connecting, Toast.LENGTH_SHORT);
             connectingToast.show();
         }
@@ -102,15 +118,40 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
     public void onDataReceived(byte[] data, String message) {
         if (message.startsWith("STAT:")) {
             String[] statuses = message.substring(5).split(";");
-            if (statuses[2].equals("0")) {
-                swingAnimator.balanceCenter();
+            if (isStatsOpen) {
+                balanceSwingByHistory(statuses);
             } else {
-                if (statuses[0].equals("1")) {
-                    swingAnimator.lowerRight();
-                } else {
-                    swingAnimator.lowerLeft();
-                }
+                balanceSwingByCurrentStatus(statuses);
             }
+        }
+    }
+
+    private void balanceSwingByCurrentStatus(String[] statuses) {
+        if (statuses[2].equals("0")) {
+            swingAnimator.balanceCenter();
+        } else {
+            if (statuses[0].equals("1")) {
+                swingAnimator.lowerRight();
+            } else {
+                swingAnimator.lowerLeft();
+            }
+        }
+    }
+
+    private void balanceSwingByHistory(String[] statuses) {
+        long leftTime = Long.parseLong(statuses[4]);
+        long rightTime = Long.parseLong(statuses[5]);
+        long bothTime = Long.parseLong(statuses[6]);
+        long timeSum = leftTime + rightTime + bothTime;
+        long leftRightDiff = Math.abs(leftTime - rightTime);
+        if (((double) leftRightDiff / timeSum) > 0.05) {
+            if (leftTime > rightTime) {
+                swingAnimator.lowerLeft();
+            } else {
+                swingAnimator.lowerRight();
+            }
+        } else {
+            swingAnimator.balanceCenter();
         }
     }
 }

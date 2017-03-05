@@ -50,6 +50,7 @@ public class SwingAnimator {
             currentPosition = POSITION_LOW_RIGHT;
             changeSwingBalanceWithAnimation(highMargin, lowMargin, swingRotation);
             smile.setVisibility(View.GONE);
+            leftSad.setVisibility(View.GONE);
             rightSad.setVisibility(View.VISIBLE);
         }
     }

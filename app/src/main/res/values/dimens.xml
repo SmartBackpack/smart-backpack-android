@@ -6,4 +6,6 @@
     <integer name="swing_rotation">30</integer>
     <integer name="animation_speed">500</integer>
 
+    <dimen name="emotion_size">92dp</dimen>
+
 </resources>

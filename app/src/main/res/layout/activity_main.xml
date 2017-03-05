@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
+    android:background="@color/colorPrimary"
     tools:context="lt.ismaniojikuprine.smartbackpack.MainActivity">
 
     <ImageView
@@ -18,59 +19,68 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:src="@drawable/swing" />
+        android:src="@drawable/swing"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/smile"
-        android:layout_width="64dp"
+        android:layout_width="@dimen/emotion_size"
         android:layout_height="wrap_content"
         android:layout_above="@+id/left_child"
         android:layout_toEndOf="@id/left_child"
         android:adjustViewBounds="true"
-        android:visibility="gone"
-        android:src="@drawable/smile"/>
+        android:src="@drawable/smile"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/sad_left"
-        android:layout_width="64dp"
+        android:layout_width="@dimen/emotion_size"
         android:layout_height="wrap_content"
         android:layout_above="@+id/left_child"
         android:layout_toEndOf="@id/left_child"
         android:adjustViewBounds="true"
-        android:visibility="gone"
-        android:src="@drawable/sad_left"/>
+        android:src="@drawable/sad_left"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/sad_right"
-        android:layout_width="64dp"
+        android:layout_width="@dimen/emotion_size"
         android:layout_height="wrap_content"
         android:layout_above="@+id/right_child"
         android:layout_toStartOf="@id/right_child"
         android:adjustViewBounds="true"
-        android:visibility="gone"
-        android:src="@drawable/sad_right"/>
+        android:src="@drawable/sad_right"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/left_child"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_above="@+id/swing"
-        android:adjustViewBounds="true"
+        android:layout_alignParentStart="true"
         android:layout_marginStart="32dp"
-        android:visibility="gone"
-        android:src="@drawable/left_child" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/left_child"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/right_child"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_above="@+id/swing"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="32dp"
         android:adjustViewBounds="true"
-        android:visibility="gone"
-        android:src="@drawable/right_child" />
+        android:src="@drawable/right_child"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/stats"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/stats"
+        android:visibility="gone" />
 
 </RelativeLayout>
