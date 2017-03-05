@@ -6,26 +6,6 @@
     android:padding="32dp"
     tools:context="lt.ismaniojikuprine.smartbackpack.MainActivity">
 
-    <Button
-        android:id="@+id/left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="left" />
-
-    <Button
-        android:id="@+id/center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/left"
-        android:text="center" />
-
-    <Button
-        android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/center"
-        android:text="right" />
-
     <ImageView
         android:id="@+id/connecting"
         android:layout_width="wrap_content"
@@ -39,8 +19,37 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone"
-        android:rotation="0"
         android:src="@drawable/swing" />
+
+    <ImageView
+        android:id="@+id/smile"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/left_child"
+        android:layout_toEndOf="@id/left_child"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        android:src="@drawable/smile"/>
+
+    <ImageView
+        android:id="@+id/sad_left"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/left_child"
+        android:layout_toEndOf="@id/left_child"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        android:src="@drawable/sad_left"/>
+
+    <ImageView
+        android:id="@+id/sad_right"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/right_child"
+        android:layout_toStartOf="@id/right_child"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        android:src="@drawable/sad_right"/>
 
     <ImageView
         android:id="@+id/left_child"

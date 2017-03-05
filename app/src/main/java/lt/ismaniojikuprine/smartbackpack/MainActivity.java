@@ -3,6 +3,7 @@ package lt.ismaniojikuprine.smartbackpack;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
     private BluetoothSPP bluetooth;
     private Toast connectingToast;
 
-    private ImageView connecting, leftChild, rightChild, swing;
+    private ImageView connecting, leftChild, rightChild, swing, smile, leftSad, rightSad;
     private SwingAnimator swingAnimator;
 
     @Override
@@ -32,17 +33,11 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
         leftChild = (ImageView) findViewById(R.id.left_child);
         rightChild = (ImageView) findViewById(R.id.right_child);
         swing = (ImageView) findViewById(R.id.swing);
+        smile = (ImageView) findViewById(R.id.smile);
+        leftSad = (ImageView) findViewById(R.id.sad_left);
+        rightSad = (ImageView) findViewById(R.id.sad_right);
 
         swingAnimator = new SwingAnimator(this);
-
-        Button left = (Button) findViewById(R.id.left);
-        left.setOnClickListener((View v) -> swingAnimator.lowerLeft());
-
-        Button center = (Button) findViewById(R.id.center);
-        center.setOnClickListener((View v) -> swingAnimator.balanceCenter());
-
-        Button right = (Button) findViewById(R.id.right);
-        right.setOnClickListener((View v) -> swingAnimator.lowerRight());
     }
 
     @Override
@@ -72,17 +67,23 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
     }
 
     private void showConnecting() {
+        swingAnimator.balanceCenter();
         connecting.setVisibility(View.VISIBLE);
         leftChild.setVisibility(View.GONE);
         rightChild.setVisibility(View.GONE);
         swing.setVisibility(View.GONE);
+        smile.setVisibility(View.GONE);
+        leftSad.setVisibility(View.GONE);
+        rightSad.setVisibility(View.GONE);
     }
 
     private void showSwing() {
+        swingAnimator.balanceCenter();
         connecting.setVisibility(View.GONE);
         leftChild.setVisibility(View.VISIBLE);
         rightChild.setVisibility(View.VISIBLE);
         swing.setVisibility(View.VISIBLE);
+        smile.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -100,9 +101,15 @@ public class MainActivity extends AppCompatActivity implements BluetoothSPP.OnDa
     @Override
     public void onDataReceived(byte[] data, String message) {
         if (message.startsWith("STAT:")) {
-            String[] statuses = message.substring(4).split(";");
+            String[] statuses = message.substring(5).split(";");
             if (statuses[2].equals("0")) {
-
+                swingAnimator.balanceCenter();
+            } else {
+                if (statuses[0].equals("1")) {
+                    swingAnimator.lowerRight();
+                } else {
+                    swingAnimator.lowerLeft();
+                }
             }
         }
     }

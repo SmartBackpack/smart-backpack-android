@@ -9,17 +9,26 @@ import android.widget.RelativeLayout;
 
 public class SwingAnimator {
 
+    private final int POSITION_CENTER = 0;
+    private final int POSITION_LOW_LEFT = 1;
+    private final int POSITION_LOW_RIGHT = 2;
+
+    private int currentPosition = 0;
+
     private ImageView swing, leftChildImage, rightChildImage;
+    private ImageView leftSad, rightSad, smile;
 
     private float lowMargin, highMargin;
     private int swingRotation, animationSpeed;
-
-    private Animation currentAnimation;
 
     public SwingAnimator(Activity activity) {
         swing = (ImageView) activity.findViewById(R.id.swing);
         leftChildImage = (ImageView) activity.findViewById(R.id.left_child);
         rightChildImage = (ImageView) activity.findViewById(R.id.right_child);
+
+        leftSad = (ImageView) activity.findViewById(R.id.sad_left);
+        rightSad = (ImageView) activity.findViewById(R.id.sad_right);
+        smile = (ImageView) activity.findViewById(R.id.smile);
 
         lowMargin = activity.getResources().getDimension(R.dimen.child_low_margin);
         highMargin = activity.getResources().getDimension(R.dimen.child_high_margin);
@@ -28,14 +37,24 @@ public class SwingAnimator {
     }
 
     public void lowerLeft() {
-        changeSwingBalance(lowMargin, highMargin, -swingRotation);
+        if (currentPosition != POSITION_LOW_LEFT) {
+            currentPosition = POSITION_LOW_LEFT;
+            changeSwingBalanceWithAnimation(lowMargin, highMargin, -swingRotation);
+            smile.setVisibility(View.GONE);
+            leftSad.setVisibility(View.VISIBLE);
+        }
     }
 
     public void lowerRight() {
-        changeSwingBalance(highMargin, lowMargin, swingRotation);
+        if (currentPosition != POSITION_LOW_RIGHT) {
+            currentPosition = POSITION_LOW_RIGHT;
+            changeSwingBalanceWithAnimation(highMargin, lowMargin, swingRotation);
+            smile.setVisibility(View.GONE);
+            rightSad.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void changeSwingBalance(float leftChildMargin, float rightChildMargin, int swingRotation) {
+    private void changeSwingBalanceWithAnimation(float leftChildMargin, float rightChildMargin, int swingRotation) {
         Animation animation = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
@@ -61,6 +80,16 @@ public class SwingAnimator {
     }
 
     public void balanceCenter() {
+        if (currentPosition != POSITION_CENTER) {
+            balanceSwingCenterWithAnimation();
+            leftSad.setVisibility(View.GONE);
+            rightSad.setVisibility(View.GONE);
+            smile.setVisibility(View.VISIBLE);
+            currentPosition = POSITION_CENTER;
+        }
+    }
+
+    private void balanceSwingCenterWithAnimation() {
         float startLeftChildMarginBottom = getViewMarginBottom(leftChildImage);
         float startRightChildMarginBottom = getViewMarginBottom(rightChildImage);
         float startSwingRotation = swing.getRotation();
